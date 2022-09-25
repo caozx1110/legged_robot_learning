@@ -18,6 +18,8 @@ use the scripts to customize czx's ubuntu 20.04
 
 #### install needed pkg & software
 
+​		firstly use the Software&Update to change the source
+
 + terminator
 + zsh
 + vscode
