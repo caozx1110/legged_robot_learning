@@ -15,3 +15,5 @@ cd McMojave-circle
 ./install.sh
 cd ..
 sudo rm -rf McMojave-circle
+
+# then you can choose the theme in gnome-tweak-tool
