@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo apt-get install gnome-tweak-tool gnome-shell-extensions -y
 
 sudo apt-get install git -y
 
