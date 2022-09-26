@@ -4,7 +4,9 @@
 
 #### 2022.9.26
 
-- [ ] read MIT Cheetah 3
+- [x] learning the basic motor's theory
+  - [x] the basic performance params
+  - [x] how the motor's structure params influence the performance params
 
 #### 2022.9.25
 
