@@ -32,14 +32,6 @@ use the scripts to customize czx's ubuntu 20.04
 
 
 
-#### install zsh-theme
-
-```sh
-./powerlevel10k_install.sh
-```
-
-
-
 #### install OS theme
 
 ```sh
