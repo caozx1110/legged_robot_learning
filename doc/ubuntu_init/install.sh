@@ -13,7 +13,7 @@ sudo apt upgrade -y
 sudo apt-get install git vim tmux zsh curl wget build-essential -y
 
 # app
-sudo apt install terminator -y
+sudo apt install terminator ibus-pinyin -y
 
 # vscode
 echo "[INFO] installing vscode..."
@@ -30,11 +30,6 @@ sudo add-apt-repository 'deb https://typoraio.cn/linux ./'
 sudo apt-get update
 sudo apt-get install typora -y
 
-# oh-my-zsh
-echo "[INFO] installing oh-my-zsh..."
-sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-chsh -s /bin/zsh
-
 # ros
 echo "[INFO] installing ros..."
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -47,4 +42,16 @@ echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 echo "source /opt/ros/noetic/setup.zsh" >> ~/.zshrc
 /bin/zsh
+source ~/.zshrc
+
+# oh-my-zsh
+echo "[INFO] installing oh-my-zsh..."
+sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)"
+sudo chsh -s /bin/zsh
+
+# install powerlevel10k
+# clone
+git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+# config
+sudo sed -i "s@ZSH_THEME=\".*\"@ZSH_THEME=\"powerlevel10k/powerlevel10k\"@g" ~/.zshrc
 source ~/.zshrc
