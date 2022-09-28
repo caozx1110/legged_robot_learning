@@ -1,4 +1,5 @@
 #!/bin/bash
+# install on Ubuntu 20.04 LTS
 
 # 清华镜像源
 sudo sed -i "s@http://.*archive.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
