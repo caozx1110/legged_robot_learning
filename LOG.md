@@ -2,6 +2,17 @@
 
 
 
+#### 2022.9.28
+
+- [x] make the guitar 😊
+- [ ] 
+
+#### 2022.9.27
+
+- [x] attend class + attend class + give lessons as TA 😎
+- [x] reinstall the Ubuntu 😭 cause the GPU driver
+  - [x] at the same time verify the shell scripts to configure the Ubuntu
+
 #### 2022.9.26
 
 - [x] learning the basic motor's theory
@@ -10,6 +21,6 @@
 
 #### 2022.9.25
 
-- [x] allocate the czx-Y9000P
+- [x] configure the czx-Y9000P
   - [x] install the ubuntu OS for czx-Y9000P
   - [x] add needed pkg & software for both Ubuntu & Windows
