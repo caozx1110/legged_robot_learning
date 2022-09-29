@@ -5,8 +5,7 @@
 #### 2022.9.29
 
 - [x] install the mujoco & mujoco-py
-
-
+- [x] the sim gui is ok (in t1.py)
 
 #### 2022.9.28
 
