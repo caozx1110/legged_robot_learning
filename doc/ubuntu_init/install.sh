@@ -9,7 +9,7 @@ sudo apt update -y
 sudo apt upgrade -y
 
 # pkg
-sudo apt-get install git vim tmux zsh curl wget build-essential -y
+sudo apt-get install git vim tmux zsh curl wget build-essential python3-pip -y
 
 # app
 sudo apt install terminator ibus-pinyin -y
