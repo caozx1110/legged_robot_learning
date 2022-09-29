@@ -8,7 +8,7 @@ from scipy.optimize import linprog
 from scipy.io import savemat
 import copy
 
-
+os.chdir('./project/qz2_mujoco/qz2_controller')
 
 def cross(pos):
     '''
@@ -76,7 +76,7 @@ class qzrobot():
         self.hip_pos = [[0.51,0,0],[0.254,-0.215,0],[-0.254,-0.215,0],[-0.51,0,0],[-0.254,0.215,0],[0.254,0.215,0]] # 各腿hip关节在base坐标系下的位置
         self.nomial_foothold = [[0.51,0,-0.43],[0.254,-0.215,-0.43],[-0.254,-0.215,-0.43],[-0.51,0,-0.43],[-0.254,0.215,-0.43],[0.254,0.215,-0.43]] # 各腿足端的相对位置
 
-        # self.f = np.zeros((18,1)) # 存储传感器结果,全局坐标系
+        self.f = np.zeros((18,1)) # 存储传感器结果,全局坐标系
 
         self.ctime = 0  # 当前时间
 

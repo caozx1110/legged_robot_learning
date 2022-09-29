@@ -2,8 +2,6 @@
 
 
 
-
-
 #### 2022.9.29
 
 - [x] install the mujoco & mujoco-py
