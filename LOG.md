@@ -2,10 +2,18 @@
 
 
 
+
+
+#### 2022.9.29
+
+- [x] install the mujoco & mujoco-py
+
+
+
 #### 2022.9.28
 
 - [x] make the guitar 😊
-- [ ] 
+- [x] do nothing 
 
 #### 2022.9.27
 
