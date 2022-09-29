@@ -1,0 +1,288 @@
+<mujoco model="qingzhui2">
+    <compiler angle="radian" meshdir="qz2_meshes/" />
+    <default>
+        <joint ref="0" armature="0.02"/>
+        <geom condim="1" material="matgeom"/>
+        <motor ctrlrange="-1.0 1.0" ctrllimited="true"/>
+    </default>
+    <option timestep="0.005" iterations="50" tolerance="1e-10" solver="Newton" jacobian="dense" cone="pyramidal"/>
+    <size njmax="500" nconmax="100" />
+    <visual>
+        <map force="0.1" zfar="30"/>
+        <rgba haze="0.15 0.25 0.35 1"/>
+        <quality shadowsize="2048"/>
+        <global offwidth="800" offheight="800"/>
+    </visual>
+    <asset>
+        <mesh name="base" file="base.STL" scale="0.001 0.001 0.001" />
+        <mesh name="r1" file="r1.STL" scale="0.001 0.001 0.001" />
+        <mesh name="upperLeg" file="upperLeg.STL" scale="0.001 0.001 0.001" />
+        <mesh name="lowerLeg" file="lowerLeg.STL" scale="0.001 0.001 0.001" />
+        <mesh name="tip" file="tip.STL" scale="0.001 0.001 0.001" />
+        <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="512"/>
+        <texture name="texplane" type="2d" builtin="checker" rgb1=".2 .3 .4" rgb2=".1 0.15 0.2" width="512" height="512" mark="cross" markrgb=".8 .8 .8"/>
+        <texture name="texgeom" type="cube" builtin="flat" mark="cross" width="127" height="1278"
+            rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" markrgb="1 1 1" random="0.01"/>
+        <material name="matplane" reflectance="0.3" texture="texplane" texrepeat="1 1" texuniform="true"/>
+        <material name="matgeom" texture="texgeom" texuniform="true" rgba="0.8 0.6 .4 1"/>
+    </asset>
+    
+    <worldbody>
+        <geom name="floor" pos="0 0 0" size="0 0 .25" type="plane" material="matplane" condim="3"/>
+        <geom name="stair1" pos="5 0 0.05" size="0.25 2 0.05" type="box" condim="3"/>
+        <geom name="stair2" pos="5.5 0 0.15" size="0.25 2 0.15" type="box" condim="3"/>
+        <geom name="stair3" pos="6.0 0 0.25" size="0.25 2 0.25" type="box" condim="3" />
+        <geom name="stair4" pos="6.75 0 0.35" size="0.5 2 0.35" type="box" condim="3" />
+        <geom name="stair5" pos="7.5 0 0.25" size="0.25 2 0.25" type="box" condim="3" />
+        <geom name="stair6" pos="8 0 0.15" size="0.25 2 0.15" type="box" condim="3" />
+        <geom name="stair7" pos="8.5 0 0.05" size="0.25 2 0.05" type="box" condim="3" />
+        <light directional="false" diffuse=".2 .2 .2" specular="0 0 0" pos="0 0 5" dir="0 0 -1" castshadow="false"/>
+
+        <body name="base" pos="0 0 0.7406">
+            <camera name='bodycamera' pos='0 -4 0' mode='trackcom' quat='0.707 0.707 0 0'/>
+            <inertial pos="0 0 0" quat="0 0.707107 0 0.707107" mass="26.6" diaginertia="0.9821 0.5944 0.43202" />
+            <joint name="floating_base_joint" type="free" />
+            <geom quat="0.500001 0.5 0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.3 0.3 0.3" mesh="base" />
+            <geom quat="0.500001 0.5 0.499999 0.5" type="mesh" rgba="1 0.3 0.3 0.3" mesh="base" />
+            <body name="L0_hipassembly" pos="0.510043 0 0">
+                <inertial pos="-0.02923 0 -0.0271748" quat="0.270746 0.270536 -0.653173 0.653355" mass="1" diaginertia="0.008711 0.008709 0.00301" />
+                <joint name="L0_hip_joint" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="-0.84 0.84" damping="0.1" frictionloss="0.1" />
+                <geom pos="-0.050293 0 0" quat="0.500001 0.5 0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="r1" />
+                <geom pos="-0.050293 0 0" quat="0.500001 0.5 0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="r1" />
+                <body name="L0_upperleg" pos="0 0 -0.084982" quat="-0.707111 0 0.707103 0">
+                    <inertial pos="-0.115692 0 0" quat="0.506262 0.493735 0.50615 0.493697" mass="0.9" diaginertia="0.0151901 0.01511 0.00188" />
+                    <joint name="L0_upper_joint" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" range="-3 1" damping="0.1" frictionloss="0.1" />
+                    <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="upperLeg" />
+                    <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="upperLeg" />
+                    <body name="L0_lowerleg" pos="-0.300656 0 0">
+                        <inertial pos="-0.124198 0 0" quat="3.32493e-05 0.706838 -5.66701e-05 0.707376" mass="0.7" diaginertia="0.008256 0.008233 0.000369995" />
+                        <joint name="L0_lower_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-2.60088 2.60088" damping="0.1" frictionloss="0.1" />
+                        <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="lowerLeg" />
+                        <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="lowerLeg" />
+                        <body name="L0_foot" pos="-0.283335 0 0">
+                            <inertial pos="-0.00515855 2.83187e-06 5.29688e-07" quat="0.706668 0.707545 -0.000120106 -6.725e-05" mass="0.0674186" diaginertia="2.31477e-05 1.76273e-05 1.7555e-05" />
+                            <!-- <joint name="L0_foot_joint" pos="0 0 0" axis="0 1 0" /> -->
+                            <geom quat="0.707107 0 -0.707106 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.6" mesh="tip" />
+                            <geom name="L0_foot_geom" quat="0.707107 0 -0.707106 0" type="mesh" rgba="1 1 1 0.6" mesh="tip" />
+                            <site name="L0_foot_site" />
+                        </body>
+                    </body>
+                </body>
+            </body>
+            <body name="L1_hipassembly" pos="0.254043 -0.215 0">
+                <inertial pos="-0.02923 0 -0.0271748" quat="0.270746 0.270536 -0.653173 0.653355" mass="1" diaginertia="0.008711 0.008709 0.00301" />
+                <joint name="L1_hip_joint" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="-0.84 0.84" damping="0.1" frictionloss="0.1" />
+                <geom pos="-0.050293 0 0" quat="0.500001 0.5 0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="r1" />
+                <geom pos="-0.050293 0 0" quat="0.500001 0.5 0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="r1" />
+                <body name="L1_upperleg" pos="0 0 -0.084982" quat="-0.707111 0 0.707103 0">
+                    <inertial pos="-0.115692 0 0" quat="0.506262 0.493735 0.50615 0.493697" mass="0.9" diaginertia="0.0151901 0.01511 0.00188" />
+                    <joint name="L1_upper_joint" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" range="-3 1" damping="0.1" frictionloss="0.1" />
+                    <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="upperLeg" />
+                    <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="upperLeg" />
+                    <body name="L1_lowerleg" pos="-0.300656 0 0">
+                        <inertial pos="-0.124198 0 0" quat="3.32493e-05 0.706838 -5.66701e-05 0.707376" mass="0.7" diaginertia="0.008256 0.008233 0.000369995" />
+                        <joint name="L1_lower_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-2.60088 2.60088" damping="0.1" frictionloss="0.1" />
+                        <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="lowerLeg" />
+                        <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="lowerLeg" />
+                        <body name="L1_foot" pos="-0.283335 0 0">
+                            <inertial pos="-0.00515855 2.83187e-06 5.29688e-07" quat="0.706668 0.707545 -0.000120106 -6.725e-05" mass="0.0674186" diaginertia="2.31477e-05 1.76273e-05 1.7555e-05" />
+                            <!-- <joint name="L0_foot_joint" pos="0 0 0" axis="0 1 0" /> -->
+                            <geom quat="0.707107 0 -0.707106 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.6" mesh="tip" />
+                            <geom name="L1_foot_geom" quat="0.707107 0 -0.707106 0" type="mesh" rgba="1 1 1 0.6" mesh="tip" />
+                            <site name="L1_foot_site" />
+                        </body>
+                    </body>
+                </body>
+            </body>
+            <body name="L2_hipassembly" pos="-0.254043 -0.215 0" quat="0 0 0 1">
+                <inertial pos="-0.02923 0 -0.0271748" quat="0.270746 0.270536 -0.653173 0.653355" mass="1" diaginertia="0.008711 0.008709 0.00301" />
+                <joint name="L2_hip_joint" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="-0.84 0.84" damping="0.1" frictionloss="0.1" />
+                <geom pos="-0.050293 0 0" quat="0.500001 0.5 0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="r1" />
+                <geom pos="-0.050293 0 0" quat="0.500001 0.5 0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="r1" />
+                <body name="L2_upperleg" pos="0 0 -0.084982" quat="-0.707111 0 0.707103 0">
+                    <inertial pos="-0.115692 0 0" quat="0.506262 0.493735 0.50615 0.493697" mass="0.9" diaginertia="0.0151901 0.01511 0.00188" />
+                    <joint name="L2_upper_joint" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" range="-3 1" damping="0.1" frictionloss="0.1" />
+                    <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="upperLeg" />
+                    <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="upperLeg" />
+                    <body name="L2_lowerleg" pos="-0.300656 0 0">
+                        <inertial pos="-0.124198 0 0" quat="3.32493e-05 0.706838 -5.66701e-05 0.707376" mass="0.7" diaginertia="0.008256 0.008233 0.000369995" />
+                        <joint name="L2_lower_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-2.60088 2.60088" damping="0.1" frictionloss="0.1" />
+                        <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="lowerLeg" />
+                        <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="lowerLeg" />
+                        <body name="L2_foot" pos="-0.283335 0 0">
+                            <inertial pos="-0.00515855 2.83187e-06 5.29688e-07" quat="0.706668 0.707545 -0.000120106 -6.725e-05" mass="0.0674186" diaginertia="2.31477e-05 1.76273e-05 1.7555e-05" />
+                            <!-- <joint name="L0_foot_joint" pos="0 0 0" axis="0 1 0" /> -->
+                            <geom quat="0.707107 0 -0.707106 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.6" mesh="tip" />
+                            <geom name="L2_foot_geom" quat="0.707107 0 -0.707106 0" type="mesh" rgba="1 1 1 0.6" mesh="tip" />
+                            <site name="L2_foot_site" />
+                        </body>
+                    </body>
+                </body>
+            </body>
+            <body name="L3_hipassembly" pos="-0.510043 0 0" quat="0 0 0 1">
+                <inertial pos="-0.02923 0 -0.0271748" quat="0.270746 0.270536 -0.653173 0.653355" mass="1" diaginertia="0.008711 0.008709 0.00301" />
+                <joint name="L3_hip_joint" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="-0.84 0.84" damping="0.1" frictionloss="0.1" />
+                <geom pos="-0.050293 0 0" quat="0.500001 0.5 0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="r1" />
+                <geom pos="-0.050293 0 0" quat="0.500001 0.5 0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="r1" />
+                <body name="L3_upperleg" pos="0 0 -0.084982" quat="-0.707111 0 0.707103 0">
+                    <inertial pos="-0.115692 0 0" quat="0.506262 0.493735 0.50615 0.493697" mass="0.9" diaginertia="0.0151901 0.01511 0.00188" />
+                    <joint name="L3_upper_joint" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" range="-3 1" damping="0.1" frictionloss="0.1" />
+                    <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="upperLeg" />
+                    <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="upperLeg" />
+                    <body name="L3_lowerleg" pos="-0.300656 0 0">
+                        <inertial pos="-0.124198 0 0" quat="3.32493e-05 0.706838 -5.66701e-05 0.707376" mass="0.7" diaginertia="0.008256 0.008233 0.000369995" />
+                        <joint name="L3_lower_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-2.60088 2.60088" damping="0.1" frictionloss="0.1" />
+                        <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="lowerLeg" />
+                        <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="lowerLeg" />
+                        <body name="L3_foot" pos="-0.283335 0 0">
+                            <inertial pos="-0.00515855 2.83187e-06 5.29688e-07" quat="0.706668 0.707545 -0.000120106 -6.725e-05" mass="0.0674186" diaginertia="2.31477e-05 1.76273e-05 1.7555e-05" />
+                            <!-- <joint name="L0_foot_joint" pos="0 0 0" axis="0 1 0" /> -->
+                            <geom quat="0.707107 0 -0.707106 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.6" mesh="tip" />
+                            <geom name="L3_foot_geom" quat="0.707107 0 -0.707106 0" type="mesh" rgba="1 1 1 0.6" mesh="tip" />
+                            <site name="L3_foot_site" />
+                        </body>
+                    </body>
+                </body>
+            </body>
+            <body name="L4_hipassembly" pos="-0.254043 0.215 0" quat="0 0 0 1">
+                <inertial pos="-0.02923 0 -0.0271748" quat="0.270746 0.270536 -0.653173 0.653355" mass="1" diaginertia="0.008711 0.008709 0.00301" />
+                <joint name="L4_hip_joint" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="-0.84 0.84" damping="0.1" frictionloss="0.1" />
+                <geom pos="-0.050293 0 0" quat="0.500001 0.5 0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="r1" />
+                <geom pos="-0.050293 0 0" quat="0.500001 0.5 0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="r1" />
+                <body name="L4_upperleg" pos="0 0 -0.084982" quat="-0.707111 0 0.707103 0">
+                    <inertial pos="-0.115692 0 0" quat="0.506262 0.493735 0.50615 0.493697" mass="0.9" diaginertia="0.0151901 0.01511 0.00188" />
+                    <joint name="L4_upper_joint" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" range="-3 1" damping="0.1" frictionloss="0.1" />
+                    <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="upperLeg" />
+                    <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="upperLeg" />
+                    <body name="L4_lowerleg" pos="-0.300656 0 0">
+                        <inertial pos="-0.124198 0 0" quat="3.32493e-05 0.706838 -5.66701e-05 0.707376" mass="0.7" diaginertia="0.008256 0.008233 0.000369995" />
+                        <joint name="L4_lower_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-2.60088 2.60088" damping="0.1" frictionloss="0.1" />
+                        <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="lowerLeg" />
+                        <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="lowerLeg" />
+                        <body name="L4_foot" pos="-0.283335 0 0">
+                            <inertial pos="-0.00515855 2.83187e-06 5.29688e-07" quat="0.706668 0.707545 -0.000120106 -6.725e-05" mass="0.0674186" diaginertia="2.31477e-05 1.76273e-05 1.7555e-05" />
+                            <!-- <joint name="L0_foot_joint" pos="0 0 0" axis="0 1 0" /> -->
+                            <geom quat="0.707107 0 -0.707106 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.6" mesh="tip" />
+                            <geom name="L4_foot_geom" quat="0.707107 0 -0.707106 0" type="mesh" rgba="1 1 1 0.6" mesh="tip" />
+                            <site name="L4_foot_site" />
+                        </body>
+                    </body>
+                </body>
+            </body>
+            <body name="L5_hipassembly" pos="0.254043 0.215 0">
+                <inertial pos="-0.02923 0 -0.0271748" quat="0.270746 0.270536 -0.653173 0.653355" mass="1" diaginertia="0.008711 0.008709 0.00301" />
+                <joint name="L5_hip_joint" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="-0.84 0.84" damping="0.1" frictionloss="0.1" />
+                <geom pos="-0.050293 0 0" quat="0.500001 0.5 0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="r1" />
+                <geom pos="-0.050293 0 0" quat="0.500001 0.5 0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="r1" />
+                <body name="L5_upperleg" pos="0 0 -0.084982" quat="-0.707111 0 0.707103 0">
+                    <inertial pos="-0.115692 0 0" quat="0.506262 0.493735 0.50615 0.493697" mass="0.9" diaginertia="0.0151901 0.01511 0.00188" />
+                    <joint name="L5_upper_joint" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" range="-3 1" damping="0.1" frictionloss="0.1" />
+                    <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="upperLeg" />
+                    <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="upperLeg" />
+                    <body name="L5_lowerleg" pos="-0.300656 0 0">
+                        <inertial pos="-0.124198 0 0" quat="3.32493e-05 0.706838 -5.66701e-05 0.707376" mass="0.7" diaginertia="0.008256 0.008233 0.000369995" />
+                        <joint name="L5_lower_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-2.60088 2.60088" damping="0.1" frictionloss="0.1" />
+                        <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.3" mesh="lowerLeg" />
+                        <geom quat="0.500001 -0.5 -0.499999 0.5" type="mesh" rgba="1 1 1 0.3" mesh="lowerLeg" />
+                        <body name="L5_foot" pos="-0.283335 0 0">
+                            <inertial pos="-0.00515855 2.83187e-06 5.29688e-07" quat="0.706668 0.707545 -0.000120106 -6.725e-05" mass="0.0674186" diaginertia="2.31477e-05 1.76273e-05 1.7555e-05" />
+                            <!-- <joint name="L0_foot_joint" pos="0 0 0" axis="0 1 0" /> -->
+                            <geom quat="0.707107 0 -0.707106 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 0.6" mesh="tip" />
+                            <geom name="L5_foot_geom" quat="0.707107 0 -0.707106 0" type="mesh" rgba="1 1 1 0.6" mesh="tip" />
+                            <site name="L5_foot_site" />
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+    <actuator>
+        <!--  ================= Torque actuators ================= /-->
+        <motor joint="L0_hip_joint" name="mt_L0_hip" gear="200"/>
+        <motor joint="L0_upper_joint" name="mt_L0_upper" gear="200"/>
+        <motor joint="L0_lower_joint" name="mt_L0_lower" gear="200"/>
+
+        <motor joint="L1_hip_joint" name="mt_L1_hip" gear="200"/>
+        <motor joint="L1_upper_joint" name="mt_L1_upper" gear="200"/>
+        <motor joint="L1_lower_joint" name="mt_L1_lower" gear="200"/>
+
+        <motor joint="L2_hip_joint" name="mt_L2_hip" gear="200"/>
+        <motor joint="L2_upper_joint" name="mt_L2_upper" gear="200"/>
+        <motor joint="L2_lower_joint" name="mt_L2_lower" gear="200"/>
+        
+        <motor joint="L3_hip_joint" name="mt_L3_hip" gear="200"/>
+        <motor joint="L3_upper_joint" name="mt_L3_upper" gear="200"/>
+        <motor joint="L3_lower_joint" name="mt_L3_lower" gear="200"/>
+        
+        <motor joint="L4_hip_joint" name="mt_L4_hip" gear="200"/>
+        <motor joint="L4_upper_joint" name="mt_L4_upper" gear="200"/>
+        <motor joint="L4_lower_joint" name="mt_L4_lower" gear="200"/>
+        
+        <motor joint="L5_hip_joint" name="mt_L5_hip" gear="200"/>
+        <motor joint="L5_upper_joint" name="mt_L5_upper" gear="200"/>
+        <motor joint="L5_lower_joint" name="mt_L5_lower" gear="200"/>
+        
+    </actuator>
+
+    <contact>
+        <exclude name="body_L1" body1="base" body2="L1_upperleg"/>
+        <exclude name="body_L2" body1="base" body2="L2_upperleg"/>
+        <exclude name="body_L4" body1="base" body2="L4_upperleg"/>
+        <exclude name="body_L5" body1="base" body2="L5_upperleg"/>
+        <pair name="L0_floor" geom1="floor" geom2="L0_foot_geom" />
+        <pair name="L1_floor" geom1="floor" geom2="L1_foot_geom" />
+        <pair name="L2_floor" geom1="floor" geom2="L2_foot_geom" />
+        <pair name="L3_floor" geom1="floor" geom2="L3_foot_geom" />
+        <pair name="L4_floor" geom1="floor" geom2="L4_foot_geom" />
+        <pair name="L5_floor" geom1="floor" geom2="L5_foot_geom" />
+
+    </contact>
+
+    <sensor>
+        <force name="L0_foot_force" site="L0_foot_site"/>
+        <force name="L1_foot_force" site="L1_foot_site"/>
+        <force name="L2_foot_force" site="L2_foot_site"/>
+        <force name="L3_foot_force" site="L3_foot_site"/>
+        <force name="L4_foot_force" site="L4_foot_site"/>
+        <force name="L5_foot_force" site="L5_foot_site"/>
+
+        <jointvel name="L0_J0" joint="L0_hip_joint"/>
+        <jointvel name="L0_J1" joint="L0_upper_joint"/>
+        <jointvel name="L0_J2" joint="L0_lower_joint"/>
+
+        <jointvel name="L1_J0" joint="L1_hip_joint"/>
+        <jointvel name="L1_J1" joint="L1_upper_joint"/>
+        <jointvel name="L1_J2" joint="L1_lower_joint"/>
+
+        <jointvel name="L2_J0" joint="L2_hip_joint"/>
+        <jointvel name="L2_J1" joint="L2_upper_joint"/>
+        <jointvel name="L2_J2" joint="L2_lower_joint"/>
+
+        <jointvel name="L3_J0" joint="L3_hip_joint"/>
+        <jointvel name="L3_J1" joint="L3_upper_joint"/>
+        <jointvel name="L3_J2" joint="L3_lower_joint"/>
+
+        <jointvel name="L4_J0" joint="L4_hip_joint"/>
+        <jointvel name="L4_J1" joint="L4_upper_joint"/>
+        <jointvel name="L4_J2" joint="L4_lower_joint"/>
+
+        <jointvel name="L5_J0" joint="L5_hip_joint"/>
+        <jointvel name="L5_J1" joint="L5_upper_joint"/>
+        <jointvel name="L5_J2" joint="L5_lower_joint"/>
+
+        <framelinvel name="base_linvel" objtype="body" objname="base"/>
+        <frameangvel name="base_angvel" objtype="body" objname="base"/>
+
+        <framepos name="L0_foot_pos" objtype='xbody' objname="L0_foot" />
+        <framepos name="L1_foot_pos" objtype='xbody' objname="L1_foot" />
+        <framepos name="L2_foot_pos" objtype='xbody' objname="L2_foot" />
+        <framepos name="L3_foot_pos" objtype='xbody' objname="L3_foot" />
+        <framepos name="L4_foot_pos" objtype='xbody' objname="L4_foot" />
+        <framepos name="L5_foot_pos" objtype='xbody' objname="L5_foot" />
+
+    </sensor>
+    
+    <keyframe>
+        <key time="0" qpos="0 0 0.5406 1 0 0 0 0 -0.72 1.49543 0 -0.72 1.49543 0 -0.72 1.49543 0 -0.72 1.49543 0 -0.72 1.49543 0 -0.72 1.49543" />
+    </keyframe>
+</mujoco>

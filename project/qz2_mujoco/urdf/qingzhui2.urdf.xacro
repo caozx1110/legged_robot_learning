@@ -1,0 +1,305 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="qingzhui2">
+
+    <!--Set Const-->
+    <xacro:arg name="task_period" default="0.001"/>
+    <xacro:property name="PI" value="3.14159"/>
+
+    <xacro:property name="baseY_devi" value="0.215000"/>
+    <xacro:property name="baseXside_devi" value="0.254043"/>
+    <xacro:property name="baseXmidd_devi" value="0.510043"/>
+
+    <!--Set Color-->
+    <xacro:macro name="grey">
+        <material name="grey">
+            <color rgba="1.0 1.0 1.0 0.3"/>
+        </material>
+    </xacro:macro>
+
+    <xacro:macro name="endgrey">
+        <material name="endgrey">
+            <color rgba="1.0 1.0 1.0 0.6"/>
+        </material>
+    </xacro:macro>
+
+    <xacro:macro name="blue">
+        <material name="blue">
+            <color rgba="0.1 0.1 1.0 0.3"/>
+        </material>
+    </xacro:macro>
+
+    <xacro:macro name="red">
+        <material name="red">
+            <color rgba="1.0 0.3 0.3 0.3"/>
+        </material>
+    </xacro:macro>
+
+    <xacro:macro name="black">
+        <material name="black">
+            <color rgba="0.1 0.1 0.1 1.0"/>
+        </material>
+    </xacro:macro>
+
+    <!--Single Leg-->
+	<!--The xacro macro xacro:single_leg contains: hip assembly, upper and lower leg -->
+    <xacro:macro name="single_leg" params="parent legName *origin">
+        <!-- Joints -->
+		<!-- Hip assembly joint -->
+        <joint name="${legName}_hip_joint" type="revolute">
+            <parent link="${parent}"/>
+            <child link="${legName}_hipassembly"/>
+            <axis xyz="1 0 0"/>
+            <xacro:insert_block name="origin"/>
+            <limit effort ="500.0" lower="-0.84" upper="0.84" velocity="12.0"/>
+            <dynamics damping="0.1" friction="0.1" />
+            <!--<safety_controller k_position="50" k_velocity="10" soft_lower_limit="-0.84" soft_upper_limit="0.84"/>-->
+        </joint>
+        <!-- Extensions -->
+        
+        <transmission name="${legName}_hip_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${legName}_hip_joint">
+                <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+                <hardwareInterface>EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${legName}_hip_motor">
+                <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+        <!-- Upper leg joint -->
+        <joint name="${legName}_upper_joint" type="revolute">
+            <parent link="${legName}_hipassembly"/>
+            <child link="${legName}_upperleg"/>
+            <axis xyz="0 1 0"/>
+            <origin rpy="0 4.7124 0" xyz="0 0 -0.084982"/>
+            <limit effort ="500.0" lower="1.96405" upper="5.78886" velocity="12.0"/>
+            <dynamics damping="0.1" friction="0.1" />
+            <!--<safety_controller k_position="50" k_velocity="10" soft_lower_limit="1.96405" soft_upper_limit="5.78886"/>-->
+        </joint>
+        <!-- Extensions -->
+        
+        <transmission name="${legName}_upper_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${legName}_upper_joint">
+                <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+                <hardwareInterface>EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${legName}_upper_motor">
+                <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+        <!-- Lower leg joint -->
+        <joint name="${legName}_lower_joint" type="revolute">
+            <parent link="${legName}_upperleg"/>
+            <child link="${legName}_lowerleg"/>
+            <axis xyz="0 1 0"/>
+            <origin rpy="0 0 0" xyz="-0.300656 0 0"/>
+            <limit effort ="500.0" lower="-2.600884" upper="2.600884" velocity="12.0"/>
+            <dynamics damping="0.1" friction="0.1" />
+            <!--<safety_controller k_position="50" k_velocity="10" soft_lower_limit="-2.600884" soft_upper_limit="2.600884"/>-->
+        </joint>
+        <!-- Extensions -->
+        
+        <transmission name="${legName}_lower_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${legName}_lower_joint">
+                <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+                <hardwareInterface>EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${legName}_lower_motor">
+                <!--<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>-->
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+        <!-- Foot joint -->
+		<joint name="${legName}_foot_joint" type="fixed">
+			<origin rpy="0 0 0" xyz="-0.283335 0 0"/>
+			<parent link="${legName}_lowerleg"/>
+			<child  link="${legName}_foot"/>
+		</joint>
+
+
+        <!-- Links -->
+		<!-- Hip assembly link -->
+        <link name="${legName}_hipassembly">
+            <inertial>
+                <origin xyz="-0.02923 0. -0.0271748"/>
+                <mass value="1.0"/>
+                <inertia ixx="0.00871" iyy="0.00301" izz="0.00871" ixy="-0.000001" iyz="0.000002" ixz="-0.000001"/>
+            </inertial>
+            <visual>
+                <geometry>
+                    <mesh filename="/home/dada/mujoco/qz2_urdf/qz2_meshes/r1.STL" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <origin rpy="${PI/2} 0 ${PI/2}" xyz="-0.050293 0 0"/>
+                <xacro:grey />
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="/home/dada/mujoco/qz2_urdf/qz2_meshes/r1.STL" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <origin rpy="${PI/2} 0 ${PI/2}" xyz="-0.050293 0 0"/>
+            </collision>
+        </link>
+        <!-- Upper leg link -->
+        <link name="${legName}_upperleg">
+            <inertial>
+                <origin xyz="-0.115692 0. 0."/>
+                <mass value="0.9"/>
+                <inertia ixx="0.00188" iyy="0.01519" izz="0.01511" ixy="0.000002" iyz="-0.000002" ixz="-0.000001"/>
+            </inertial>
+            <visual>
+                <geometry>
+                    <mesh filename="/home/dada/mujoco/qz2_urdf/qz2_meshes/upperLeg.STL" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <origin rpy="${-PI/2} 0 ${PI/2}" xyz="0 0 0"/>
+                <xacro:grey />
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="/home/dada/mujoco/qz2_urdf/qz2_meshes/upperLeg.STL" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <origin rpy="${-PI/2} 0 ${PI/2}" xyz="0 0 0"/>
+            </collision>
+        </link>
+        <!-- Extensions -->
+        
+
+        <!-- Lower leg link -->
+        <link name="${legName}_lowerleg">
+            <inertial>
+                <!-- <origin xyz="-0.000000799 0.000008540 0.124197800"/> -->
+                <origin xyz="-0.124198 0.0 0.0"/>
+                <mass value="0.7"/>
+                <inertia ixx="0.00037" iyy="0.008233" izz="0.008256" ixy="0.000001" iyz="0.0" ixz="-0.000006"/>
+            </inertial>
+            <visual>
+                <geometry>
+                    <mesh filename="/home/dada/mujoco/qz2_urdf/qz2_meshes/lowerLeg.STL" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <origin rpy="${-PI/2} 0 ${PI/2}" xyz="0 0 0"/>
+                <xacro:grey />
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="/home/dada/mujoco/qz2_urdf/qz2_meshes/lowerLeg.STL" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <origin rpy="${-PI/2} 0 ${PI/2}" xyz="0 0 0"/>
+            </collision>
+        </link>
+         <!-- Extensions -->
+        
+
+        <!-- Foot link -->
+		<link name="${legName}_foot">
+            <visual>
+				<geometry>
+					<mesh filename="/home/dada/mujoco/qz2_urdf/qz2_meshes/tip.STL" scale="0.001 0.001 0.001"/>
+				</geometry>
+                <origin rpy="0 ${-PI/2} 0" xyz="0 0 0"/>
+				<xacro:endgrey />
+			</visual>
+			<collision>
+				<origin rpy="0 ${-PI/2} 0" xyz="0 0 0"/>
+				<geometry>
+					<mesh filename="/home/dada/mujoco/qz2_urdf/qz2_meshes/tip.STL" scale="0.001 0.001 0.001"/>
+				</geometry>
+			</collision>
+		</link>
+        <!-- Extensions -->
+        
+
+    </xacro:macro>
+
+    <!--Hexapod Descritopn, Containing One Base and Six Legs-->
+    <link name="world"/>  
+
+    <joint name="floating_base_joint" type="floating">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <parent link="world"/>
+        <child link="base"/>
+    </joint>
+
+    <!--<link name="base_sensor">
+        <visual>
+            <geometry>
+                <box size="0.001 0.001 0.001" />
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <xacro:red/>
+        </visual>
+    </link>
+
+    <joint name="base_Aux" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <parent link="base_sensor"/>
+        <child link="base"/>
+    </joint>-->
+
+    <link name="base">
+        <inertial>
+            <origin xyz="0 0 0"/>
+            <mass value="26.60"/>
+            <inertia ixx="0.43202" iyy="0.59440" izz="0.98210" ixy="0" ixz="0"  iyz="0"/>
+		</inertial>
+        <visual>
+            <geometry>
+                <mesh filename="/home/dada/mujoco/qz2_urdf/qz2_meshes/base.STL" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin rpy="${PI/2} 0 ${PI/2}" xyz="0 0 0"/>
+            <xacro:red/>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="/home/dada/mujoco/qz2_urdf/qz2_meshes/base.STL" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin rpy="${PI/2} 0 ${PI/2}" xyz="0 0 0"/>
+        </collision>
+    </link>
+
+    <!-- Extensions -->
+    
+
+    <!-- Six Legs -->
+    <xacro:single_leg 
+        parent="base" legName="L0">
+        <origin rpy="0 0 0" xyz="${baseXmidd_devi} 0 0"/>
+    </xacro:single_leg>
+
+    <xacro:single_leg 
+        parent="base" legName="L1">
+        <origin rpy="0 0 0" xyz="${baseXside_devi} ${-baseY_devi} 0"/>
+    </xacro:single_leg>
+
+    <xacro:single_leg 
+        parent="base" legName="L2">
+        <origin rpy="0 0 ${PI}" xyz="${-baseXside_devi} ${-baseY_devi} 0"/>
+    </xacro:single_leg>
+
+    <xacro:single_leg 
+        parent="base" legName="L3">
+        <origin rpy="0 0 ${PI}" xyz="${-baseXmidd_devi} 0 0"/>
+    </xacro:single_leg>
+
+    <xacro:single_leg 
+        parent="base" legName="L4">
+        <origin rpy="0 0 ${PI}" xyz="${-baseXside_devi} ${baseY_devi} 0"/>
+    </xacro:single_leg>
+
+    <xacro:single_leg 
+        parent="base" legName="L5">
+        <origin rpy="0 0 0" xyz="${baseXside_devi} ${baseY_devi} 0"/>
+    </xacro:single_leg>
+
+    <mujoco>
+        <compiler 
+        meshdir="./qz2_meshes/" 
+        balanceinertia="true" 
+        discardvisual="false" />
+  </mujoco>
+</robot>
