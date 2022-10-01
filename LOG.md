@@ -2,15 +2,26 @@
 
 
 
+#### 2022.10.1
+- [x] do nothing
+
+#### 2022.9.30
+
+- [x] read the MIT Cheetah 3
+  - but found that the robotics dynamics formulas seem not to prepare for me (good-for-nothing)
+  - so I read the book "Introduction to robotics" to try to learn it 
+
 #### 2022.9.29
 
 - [x] install the mujoco & mujoco-py
 - [x] the sim gui is ok (in t1.py)
+- [x] study the gundam solidwork model from taobao
 
 #### 2022.9.28
 
 - [x] make the guitar 😊
-- [x] do nothing 
+- [x] install solidwork and try to get the memories back
+  - [x] some basic elements
 
 #### 2022.9.27
 
