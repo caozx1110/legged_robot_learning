@@ -1,6 +1,10 @@
 # LOG
 
 
+from 2022.10.3
+
+> focus on the book "legged robots that balance"
+-----------------
 
 #### 2022.10.1
 - [x] do nothing
