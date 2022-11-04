@@ -15,6 +15,9 @@ sudo apt-get install git vim tmux zsh curl wget build-essential python3-pip -y
 # app
 sudo apt install terminator ibus-pinyin -y
 
+# config
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
 # vscode
 echo "[INFO] installing vscode..."
 sudo apt install software-properties-common apt-transport-https -y
@@ -30,19 +33,8 @@ sudo add-apt-repository 'deb https://typoraio.cn/linux ./'
 sudo apt-get update
 sudo apt-get install typora -y
 
-# ros
-echo "[INFO] installing ros..."
-sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-sudo apt update
-sudo apt install ros-noetic-desktop-full -y
-sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential -y
-echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
-/bin/bash 
-source ~/.bashrc
-echo "source /opt/ros/noetic/setup.zsh" >> ~/.zshrc
+# open zsh
 /bin/zsh
-source ~/.zshrc
 
 # oh-my-zsh
 echo "[INFO] installing oh-my-zsh..."
@@ -55,3 +47,15 @@ git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$H
 # config
 sudo sed -i "s@ZSH_THEME=\".*\"@ZSH_THEME=\"powerlevel10k/powerlevel10k\"@g" ~/.zshrc
 source ~/.zshrc
+
+# ros
+echo "[INFO] installing ros..."
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+sudo apt update
+sudo apt install ros-noetic-desktop-full -y
+sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential -y
+echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+echo "source /opt/ros/noetic/setup.zsh" >> ~/.zshrc
+
+# TODO: docker
